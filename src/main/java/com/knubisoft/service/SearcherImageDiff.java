@@ -29,6 +29,7 @@ public class SearcherImageDiff {
     private static final String PATH_OUT_B = "src/main/resources/test2out.jpg";
     private final Set<Set<Node>> diffNodeSet = new HashSet<>();
     private final Logger logger = LoggerFactory.getLogger(SearcherImageDiff.class);
+
     @SneakyThrows
     public void launchFinderImageDiff(String nameA, String nameB) {
         BufferedImage[] bufferedImages = createImageIo(nameA, nameB);
@@ -41,13 +42,13 @@ public class SearcherImageDiff {
     @SneakyThrows
     private void createImages(BufferedImage imageA, BufferedImage imageB, Set<Node> rectangleSet) {
         for (Node node : rectangleSet) {
-            if (imageA.getWidth() >= node.getX() && imageA.getHeight() >= node.getY()) {
+            if (imageA.getWidth() > node.getX() && imageA.getHeight() > node.getY()) {
                 try {
                     imageA.setRGB(node.getX(), node.getY(), node.getPixel());
                     imageB.setRGB(node.getX(), node.getY(), node.getPixel());
                 } catch (ArrayIndexOutOfBoundsException e) {
-                        logger.info("max width: " + imageA.getWidth() + ", max height: " + imageA.getHeight()
-                            + "node x: " + node.getX()+ "node y: " + node.getY());
+                        logger.warn("max width: " + imageA.getWidth() + ", max height: " + imageA.getHeight()
+                            + ", node x: " + node.getX()+ ", node y: " + node.getY());
                 }
             }
         }
