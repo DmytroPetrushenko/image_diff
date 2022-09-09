@@ -9,34 +9,52 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearcherImageDiff {
+    private static final String PATH_OUT_A = "src/main/resources/test1out.jpg";
+    private static final String PATH_OUT_B = "src/main/resources/test2out.jpg";
     private final Set<Set<Node>> diffNodeSet = new HashSet<>();
-    private Set<Node> setNodeA = new LinkedHashSet<>();
-    private Set<Node> setNodeB = new LinkedHashSet<>();
+    private final Logger logger = LoggerFactory.getLogger(SearcherImageDiff.class);
     @SneakyThrows
     public void launchFinderImageDiff(String nameA, String nameB) {
         BufferedImage[] bufferedImages = createImageIo(nameA, nameB);
         RTree<Node, Geometry> tree = createRtree(bufferedImages[0], bufferedImages[1]);
         workWithObservable(tree);
-        Set<Node> redEdges = createRectangleWithRedEdge();
-        redEdges.forEach(this::putRedNodeToSetNodes);
-        createImages();
+        Set<Node> rectangleSet = createRectangleWithRedEdge();
+        createImages(bufferedImages[0], bufferedImages[1], rectangleSet);
     }
 
-    private void createImages() {};
-
-    private void putRedNodeToSetNodes(Node node) {
-        setNodeA = setNodeA.stream()
-                .filter(nodeA -> nodeA.getX() != node.getX() && nodeA.getY() != node.getY())
-                .collect(Collectors.toSet());
-        setNodeA.add(node);
+    @SneakyThrows
+    private void createImages(BufferedImage imageA, BufferedImage imageB, Set<Node> rectangleSet) {
+        for (Node node : rectangleSet) {
+            if (imageA.getWidth() >= node.getX() && imageA.getHeight() >= node.getY()) {
+                try {
+                    imageA.setRGB(node.getX(), node.getY(), node.getPixel());
+                    imageB.setRGB(node.getX(), node.getY(), node.getPixel());
+                } catch (ArrayIndexOutOfBoundsException e) {
+                        logger.info("max width: " + imageA.getWidth() + ", max height: " + imageA.getHeight()
+                            + "node x: " + node.getX()+ "node y: " + node.getY());
+                }
+            }
+        }
+        File fileA = new File(PATH_OUT_A);
+        ImageIO.write(imageA, "jpg", fileA);
+        File fileB = new File(PATH_OUT_B);
+        ImageIO.write(imageB, "jpg", fileB);
     }
 
     private Set<Node> createRectangleWithRedEdge() {
@@ -84,12 +102,9 @@ public class SearcherImageDiff {
         }
         for (int x = 0; x <imageA.getWidth(); x++) {
             for (int y = 0; y < imageA.getHeight(); y++) {
-                Node nodeA = new Node(imageA.getRGB(x, y), x, y);
-                Node nodeB = new Node(imageB.getRGB(x, y), x, y);
-                setNodeA.add(nodeA);
-                setNodeB.add(nodeB);
                 if (imageA.getRGB(x, y) != imageB.getRGB(x, y)) {
-                    tree = tree.add(nodeA, Geometries.point(x, y));
+                    Node node = new Node(imageA.getRGB(x, y), x, y);
+                    tree = tree.add(node, Geometries.point(x, y));
                 }
             }
         }
@@ -112,7 +127,7 @@ public class SearcherImageDiff {
         if (optional.isPresent()) {
             return null;
         }
-        tree.nearest(Geometries.point(currentNode.getX(), currentNode.getY()), 5, tree.size())
+        tree.nearest(Geometries.point(currentNode.getX(), currentNode.getY()), 50, tree.size())
                 .map(Entry::value)
                 .forEach(nodeList::add);
         return nodeList;
