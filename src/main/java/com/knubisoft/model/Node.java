@@ -2,14 +2,13 @@ package com.knubisoft.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter
 public class Node {
     private final int pixel;
-    private final int x;
-    private final int y;
+    private final int axeX;
+    private final int axeY;
 
     @Override
     public int hashCode() {
@@ -31,10 +30,10 @@ public class Node {
             return false;
         }
 
-        if (this.getX() != node.getX()) {
+        if (this.getAxeX() != node.getAxeX()) {
             return false;
         }
 
-        return this.getY() != 0 ? this.getY() == (node.getY()) : node.getY() == 0;
+        return this.getAxeY() != 0 ? this.getAxeY() == (node.getAxeY()) : node.getAxeY() == 0;
     }
 }

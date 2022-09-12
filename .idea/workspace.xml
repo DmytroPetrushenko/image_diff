@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78d573dd-fffa-4b09-baf5-8fa76fc1862b" name="Changes" comment="done">
+      <change afterPath="$PROJECT_DIR$/checkstyle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/knubisoft/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/knubisoft/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/knubisoft/model/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/knubisoft/model/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/knubisoft/service/SearcherImageDiff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/knubisoft/service/SearcherImageDiff.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +42,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/Java/knubisoft/Image_diff/src/main/resources",
+    "last_opened_file_path": "D:/Java/knubisoft/image_diff",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -48,6 +51,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Java\knubisoft\image_diff" />
       <recent name="D:\Java\knubisoft\Image_diff\src\main\resources" />
     </key>
   </component>
@@ -80,6 +84,8 @@
       <option name="presentableId" value="Default" />
       <updated>1662649419792</updated>
       <workItem from="1662649421279" duration="25233000" />
+      <workItem from="1662984862343" duration="6427000" />
+      <workItem from="1662991352848" duration="4338000" />
     </task>
     <task id="LOCAL-00001" summary="done">
       <created>1662706848873</created>
